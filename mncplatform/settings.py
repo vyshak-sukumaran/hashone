@@ -96,17 +96,6 @@ DATABASES = {
     }
 }
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'dfpmadnhf075hm',
-        'USER' : 'wtzzmzgzmuqnht',
-        'PASSWORD' : '9c17e7b23034fd5d243b8dc90c876ee8a79bd46e784ce1791799589452c6f8d4',
-        'HOST' : 'ec2-3-219-111-26.compute-1.amazonaws.com',
-        'PORT' : '5432',
-    }
-}
-"""
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)

@@ -20,11 +20,20 @@
                    
                                               
               <div class="card text-center align-items-center pt-5 pb-5">
-                  <img src="{{request.user.company.image.url}}" alt="" class="profile">
-                  <p class="pt-2">Name : {{request.user}}</p>
-                  <p>Email : {{request.user.email}}</p>
-                  <p>Phone : {{request.user.company.phone}}</p>
-                  <a href="{% url 'editcompany' %}" class="btn btn-primary">Edit </a>
+              {% if request.user.company.image %}
+                <img src="{{request.user.company.image.url}}" alt="" class="profile">
+              {% else %}
+                <img src="{% static 'img/profile-icon.png' %}" alt="" class="profile">
+
+              {% endif %}
+                  
+                  <h4 class="pt-2">{{request.user}}</h4>
+                  <p>{{request.user.email}}</p>
+                  <p>{{request.user.company.phone}}</p>
+                  <div>
+                  <a href="{% url 'editcompany' %}" class="btn btn-primary"><i class="fa fa-user-edit"></i></a>
+                  <a href="{% url 'deleteuser' request.user.id %}" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
+                  </div>
               </div>
           
             
@@ -37,7 +46,6 @@
 
                 {% for item in review %}
                   {% if item.company.user == request.user %}
-                  
                     <div class="companies-list">
                         <span class="float-right">{{item.posted_on}}</span>
                         <div class="review-header">
@@ -55,40 +63,10 @@
                             {% endfor %}
                             
                         </p>
-                        <a href="#" class="btn btn-primary">View Review</a>
                       </div>
-
+          
                   {% endif %}
-                      
-
-                    
-
                 {% endfor %}
-
-                
-                
-<!-- pagination -->
-              <div class="pagination-div-bottom">
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
               </div>
           </div>
       </div>

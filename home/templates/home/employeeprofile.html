@@ -17,7 +17,7 @@
 
                   {% endif %}  
                     
-                        <div class="profile-details">
+                        <div class="profile-details" style="margin-left:20px;">
                             <h1>{{request.user}}</h1>
                             <p>{{request.user.email}}</p>
                             <p>{{request.user.employee.phone}}</p>
@@ -27,7 +27,8 @@
                         </div>
          
                    
-                        <a href="{% url 'editemployee' %}" class="btn btn-primary">Edit </a>
+                        <a href="{% url 'editemployee' %}" class="btn btn-primary mr-2"><i class="fa fa-user-edit"></i></a>
+                        <a href="{% url 'deleteuser' request.user.id %}" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
                   </div>
 
               <!-- Search bar-->

@@ -57,13 +57,16 @@ def logoutUser(request):
 @login_required(login_url='login')
 def editCompany(request):
 
+    try:
+        company_ins = request.user.company
+    except:
+        company_ins = None
+        
     u_form = UserForm(instance = request.user)
-    p_form = CompanyProfileForm(instance = request.user.company)
-
-
+    p_form = CompanyProfileForm(instance = company_ins)
     if request.method == 'POST':
         u_form = UserForm(request.POST, instance = request.user)
-        p_form = CompanyProfileForm(request.POST, request.FILES, instance = request.user.company)
+        p_form = CompanyProfileForm(request.POST, request.FILES, instance = company_ins)
         if u_form.is_valid() and p_form.is_valid():
             user = u_form.save()
             profile = p_form.save(commit=False)
@@ -108,3 +111,16 @@ def editEmployee(request):
     context = {'u_form':u_form, 'p_form':p_form}
 
     return render(request, 'accounts/editemployeeprofile.html', context)
+
+@login_required(login_url='login')
+def deleteUser(request,pk):
+
+    user = User.objects.get(id=pk)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('index')
+
+
+    context = {}
+
+    return render(request, 'accounts/deleteprofile.html', context)
