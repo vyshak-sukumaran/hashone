@@ -48,7 +48,7 @@
                 {% for item in company %}                      
                   <div class="companies-list">
                       <h2>Name : {{item.user.username}}</h2>
-                      <p>Company Descirption : {{item.description}} </p>    
+                      <p>Company Descirption : {{item.description|slice:":200"}} </p>    
                       
                       <p>Average Rating :
                       {% with average=showreview|avg:item.id|floatformat:"0" %}
