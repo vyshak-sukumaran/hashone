@@ -1,0 +1,64 @@
+{% extends './base.html' %}
+{% load static %}
+
+
+{% block title %}Employee profile{% endblock %}
+{% block content %}
+
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+            
+                  <div class="profile-container">
+                  {% if request.user.employee.image %}
+                      <img src="{{request.user.employee.image.url}}" alt="" class="user-profile rounded">
+                  {% else %}
+                        <img src="{% static 'img/profile-icon.png' %}" alt="" class="review-user">
+
+                  {% endif %}  
+                    
+                        <div class="profile-details">
+                            <h1>{{request.user}}</h1>
+                            <p>{{request.user.email}}</p>
+                            <p>{{request.user.employee.phone}}</p>
+                            {% if request.user.employee.company and request.user.employee.is_approved %}
+                            <p>{{request.user.employee.company}}</p>
+                            {% endif %}
+                        </div>
+         
+                   
+                        <a href="{% url 'editemployee' %}" class="btn btn-primary">Edit </a>
+                  </div>
+
+              <!-- Search bar-->
+                <form class="form-inline">
+                {% csrf_token %}
+                <div class="search-group">
+                    <input id="search-input" type="search" class="form-control" placeholder="Search anything...">  
+                    <button id="search-button" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                </form>
+
+                <!-- company list -->
+                <h2>Companies </h2>
+
+                {% for item in company %}
+    
+                        <div class="companies-list">
+                            <h2> {{item.user.username}} </h2>
+                            <p>{{item.description}} </p>
+                            <a href="{% url 'openreview' item.id %}" class="btn btn-primary">Open Review</a>
+                            <a href="{% url 'unknownreview' item.id %}" class="btn btn-warning">Unknown Review</a>
+                                
+                        </div>
+
+                {% endfor %}
+                  
+              </div>
+
+          </div>
+      </div>
+     
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends './base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}Review{% endblock %}
+{% block content %}
+
+
+
+
+      <div class="container">
+      <div class="row">
+          <div class="col-md-6 mt-3">
+            <div class="user-profile ">
+                <img src="{{company.image.url}}" alt="" class="profile">
+            
+                        
+                <div class="company-details ">
+                    <h1>{{company.user.username}}</h1>
+                    <p>{{company.user.email}}</p>
+                    <p>{{company.description}}</p>
+                </div>
+                </div>    
+        
+              </div>
+
+              <div class="col-md-6">
+
+                {% if not request.user.is_company %}
+
+                  <form action="" method="post">
+                  {% csrf_token %}
+                      <div class="form-group">
+                          <label for="">Review</label>
+                          {{review.post}}
+                      </div>
+                      <div class="form-group">
+                          <label for="">Rating</label>
+                          {{review.rating}}
+                      </div>
+                      <div class="form-group">
+                      {% if request.user.is_authenticated %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      {% else %}
+                        <a href="{% url 'login' %} " class="btn btn-primary">Submit</a>
+                      {% endif %}
+                          
+                      </div>
+                  </form>
+
+                {% endif %}
+              </div>
+              </div>
+
+                {% for review in showreview %}
+                    {% if review.company == company and review.employee == request.user %}
+                        
+                        <div class="companies-list">
+                            <h2> {{review.company.user}} </h2>
+                            <p>Review : {{review.post}} </p>
+                            <p>Rating :
+                            {% for i in review.rating|times %}
+                                <img src="{% static 'img/star.jpg' %}" alt="" class="star-img">
+                            {% endfor %}
+                            </p>
+                            <p>Posted on : {{review.posted_on}} </p>
+                            <a href="{% url 'editreview' review.id %}" class=""><i class="fas fa-edit" style="color:blue"></i></a>
+                            <a href="{% url 'deletereview' review.id %}" class="btn"><i class="fas fa-trash" style="color:red"></i></a>                            
+                                
+                        </div>
+                        
+                    {% endif %}
+
+                {% endfor %}
+
+              <hr>
+                <h2>All Reviews </h2>
+                {% for single_review in showreview %}
+                    {% if single_review.company == company %}
+                      
+                    <div class="companies-list">
+                        <span class="float-right">{{single_review.posted_on}}</span>
+
+                        <div class="review-header">
+                        {% if single_review.employee.employee.image %}
+                            <img src="{{single_review.employee.employee.image.url}}" alt="" class="review-user">
+                        {% else %}
+                            <img src="{% static 'img/profile-icon.png' %}" alt="" class="review-user">
+                        {% endif %}
+                                                        
+                            <h2 >{{single_review.employee}} </h2>
+                        </div>
+                            
+                            
+                        
+                        
+                        <p>{{single_review.post}}</p>
+                        <p>Rating -  
+                        {% for i in single_review.rating|times %}
+                            <img src="{% static 'img/star.jpg' %}" alt="" class="star-img">
+                        {% endfor %}
+                         
+                        </p>
+                    </div>
+                    
+                    {% endif %}
+                    
+                {% endfor %}
+              
+               
+                
+              
+              
+          </div>
+      </div>    
+
+
+
+    
+
+{% endblock %}
