@@ -106,6 +106,7 @@ def companyDashboard(request,pk):
                 get_employee.save()
             elif "reject" in request.POST['action'] and get_employee.is_rejected == False:
                 get_employee.is_rejected = True
+                get_employee.company = ""
                 get_employee.save()
             else:
                 return Http404()
